@@ -1,6 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using ALBuild.Tasks;
+﻿using ALBuild.Tasks;
+using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 
@@ -22,14 +21,21 @@ namespace ALBuild
 
             var hostFile = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\ALBuild.exe";
 
+            string buildScriptPath = "";
+#if DEBUG
+            buildScriptPath = @"c:\\temp\\cicd\\scs.json";
+#else
+            buildScriptPath = args[0];
+#endif
 
-            if (!File.Exists(args[0]))
+            if (!File.Exists(buildScriptPath))
             {
-                Console.WriteLine("Cannot find {0}", args[0]);
+                Console.WriteLine($"Cannot find {buildScriptPath}");
                 return;
             }
-            Console.WriteLine("- Reading build script {0}", args[0]);
-            var BuildScript = JObject.Parse(File.ReadAllText(args[0]));
+
+            Console.WriteLine("- Reading build script {0}", buildScriptPath);
+            var BuildScript = JObject.Parse(File.ReadAllText(buildScriptPath));
             Console.WriteLine("- Building {0}", BuildScript["Project"]);
 
             if (args.Length > 1)
@@ -94,6 +100,9 @@ namespace ALBuild
                         break;
                     case "DownloadSymbolsDocker":
                         Res = await new DownloadSymbolsDocker().RunAsync((JObject)Task["Settings"]);
+                        break;
+                    case "DownloadSymbolsOnPrem":
+                        Res = await new DownloadSymbolsOnPrem().RunAsync((JObject)Task["Settings"]);
                         break;
                     default:
                         Console.WriteLine("Unkown task \"{0}\", aborting", Task["Type"].ToString());

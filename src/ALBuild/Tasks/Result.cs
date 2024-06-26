@@ -1,13 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ALBuild.Tasks
 {
-    internal class Result
+    public class Result
     {
         public Result(bool _success)
         {
