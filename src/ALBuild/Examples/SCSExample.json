@@ -1,0 +1,28 @@
+{
+    "Project": "Select Custom Solutions",
+    "Report": "Email",
+    "ReportDestination": "scott.sloan@select-cs.com",
+    "Tasks": [
+        {
+            "Type": "Git",
+            "Settings": {
+                "Path": "C:\\src\\SelectCS\\BusinessCentral\\BC14",
+                "Command": "pull"
+            }
+        },
+        {
+            "Type": "DownloadSymbolsOnPrem",
+            "Settings": {
+                "AppPath": "C:\\src\\SelectCS\\BusinessCentral\\BC14",
+                "DevBaseUrl": "http://bc.selectcustomsolutions.com:6049",
+                "ServerInstance": "DEV"
+            }
+        },
+        {
+            "Type": "Compile",
+            "Settings": {
+                "AppPath": "C:\\src\\SelectCS\\BusinessCentral\\BC14"
+            }
+        }
+    ]
+}
